@@ -14,14 +14,30 @@ const Home = () => {
         .select()
 
         if(error) {
-          setFetchError()
+          setFetchError('Could not fetch the smoothies')
+          setSmoothies(null)
+          console.log(error);
+        }
+        if (data) {
+          setSmoothies(data)
+          setFetchError(null)
         }
     }
+
+    fetchSmoothies()
+
   }, [])
 
   return (
     <div className="page home">
-      <h2>Home</h2>
+      {fetchError && (<p> {fetchError} </p>)}
+      {smoothies && (
+        <div className="smoothies">
+          {smoothies.map(smoothie => (
+            <p> {smoothie.title} </p>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

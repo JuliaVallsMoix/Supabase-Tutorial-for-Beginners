@@ -1,6 +1,7 @@
 import { logDOM } from "@testing-library/react"
 import supabase from "../Config/supabaseClient"
 import { useEffect, useState } from "react"
+import SomoothieCard from "../components/SmoothieCard"
 
 const Home = () => {
 
@@ -10,10 +11,11 @@ const Home = () => {
   useEffect(() => {
     const fetchSmoothies = async () => {
       const { data, error } = await supabase
-        .from('smoothies')
+        .from('Smoothies')
         .select()
+        console.log(data);
 
-        if(error) {
+        if (error) {
           setFetchError('Could not fetch the smoothies')
           setSmoothies(null)
           console.log(error);
@@ -33,9 +35,11 @@ const Home = () => {
       {fetchError && (<p> {fetchError} </p>)}
       {smoothies && (
         <div className="smoothies">
-          {smoothies.map(smoothie => (
-            <p> {smoothie.title} </p>
-          ))}
+          <div className="smoothie-grid">
+            {smoothies.map(smoothie => (
+              <SomoothieCard key={smoothie.id} smoothie={smoothie} />
+            ))}
+          </div>
         </div>
       )}
     </div>

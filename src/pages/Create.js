@@ -14,6 +14,7 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    // Si no he emplenat tots els camps del forulari, hem de dir que hi ha un error (client)
     if (!title || !method || !rating) {
       setFormError('Please fill in all the fields correctly')
       return
@@ -22,13 +23,17 @@ const Create = () => {
     const { data, error } = await supabase
     .from('Smoothies')
     .insert([{ title, method, rating }])
+    .select()
+
+    console.log(data);
 
     if (error) {
       console.log(error);
-      setFormError('Please fill in all the fields correctly')
+      setFormError('We have not been able to insert the smoothie')
 
     } 
     if (data) {
+      console.log('hola');
       console.log(data);
       setFormError(null)
       navigate('/')
